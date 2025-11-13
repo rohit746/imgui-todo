@@ -53,12 +53,17 @@ Download SDL2 development libraries from [SDL's official website](https://www.li
 
 ## Setup
 
-1. **Clone Dear ImGui into the external directory:**
+1. **Clone the repository with submodules:**
 
 ```bash
-cd external
-git clone https://github.com/ocornut/imgui.git
-cd ..
+git clone --recurse-submodules https://github.com/rohit746/imgui-todo.git
+cd imgui-todo
+```
+
+Or if you already cloned without submodules:
+
+```bash
+git submodule update --init --recursive
 ```
 
 2. **Create a build directory:**
@@ -92,10 +97,18 @@ cmake --build .
 test-gui/
 ├── CMakeLists.txt          # CMake configuration
 ├── src/                    # Source files
-│   └── main.cpp           # Todo list application
-├── include/               # Header files (for your custom headers)
+│   ├── main.cpp           # Application entry point
+│   ├── TodoItem.cpp       # Todo item implementation
+│   ├── TodoManager.cpp    # Todo manager implementation
+│   ├── UIStyle.cpp        # Styling implementation
+│   └── TodoUI.cpp         # UI rendering implementation
+├── include/               # Header files
+│   ├── TodoItem.h         # Todo item interface
+│   ├── TodoManager.h      # Todo manager interface
+│   ├── UIStyle.h          # Styling interface
+│   └── TodoUI.h           # UI rendering interface
 ├── external/              # External dependencies
-│   └── imgui/            # ImGui library (cloned separately)
+│   └── imgui/            # ImGui library (git submodule)
 └── build/                # Build output directory (created during build)
 ```
 
@@ -112,12 +125,12 @@ Once the application is running:
 
 ## Customization
 
-The app is built with a modular structure, making it easy to customize:
+The app is built with a modular structure for easy maintenance:
 
-- Modify colors and styling in the `SetupCustomStyle()` function
-- Adjust window size in the `SDL_CreateWindow()` call
-- Add new features by extending the `TodoItem` struct
-- Customize the UI layout in the main rendering loop
+- **Styling**: Modify `UIStyle::setupCustomStyle()` in `src/UIStyle.cpp`
+- **Sample Data**: Change initial todos in `TodoManager` constructor in `src/TodoManager.cpp`
+- **UI Layout**: Adjust rendering in `TodoUI` class methods in `src/TodoUI.cpp`
+- **Features**: Extend `TodoItem` or `TodoManager` classes
 
 ## ImGui Documentation
 
